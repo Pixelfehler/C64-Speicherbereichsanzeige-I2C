@@ -1,0 +1,75 @@
+#include <LiquidCrystal_I2C.h>        // controls liquid crystal displays (LCD)
+LiquidCrystal_I2C lcd(0x27, 16, 2);   // (2 lines by 16 chars)
+
+int A; // GAME   Pin 9 Expansionsport
+int B; // EXROM  Pin 10
+int C; // CHAREN Pin 11
+int D; // HIRAM  Pin 12
+int E; // LORAM  Pin 13
+
+void setup()
+{
+  Serial.begin(9600);           
+  lcd.begin();             
+
+  pinMode( 9,INPUT);
+  pinMode(10,INPUT);
+  pinMode(11,INPUT);
+  pinMode(12,INPUT);
+  pinMode(13,INPUT);
+
+ lcd.setCursor(0,2);
+ lcd.print("$A000  $D000  $E000 ") ;
+}
+
+void loop() 
+{
+  A = digitalRead(9);  // setzt 'A' gleich mit dem Eingangspin
+  B = digitalRead(10); // setzt 'B' gleich mit dem Eingangspin
+  C = digitalRead(11); // setzt 'C' gleich mit dem Eingangspin
+  D = digitalRead(12); // setzt 'D' gleich mit dem Eingangspin
+  E = digitalRead(13); // setzt 'E' gleich mit dem Eingangspin
+  
+  if ((A == 1) && (D == 0) && (E == 0))  
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("RAM    RAM    RAM   ");
+  }
+
+  if ((A == 1) and (C == 0) and (D == 0) and (E == 1))
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("RAM    CHAR   RAM   ");
+  }
+
+  if ((A == 1) and (C == 0) and (D == 1) and (E == 0))
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("RAM    CHAR   KERNAL");   
+  }
+
+  if ((A == 1) and (B == 1) and (C == 0) and (D == 1) and (E == 1))
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("BASIC  CHAR   KERNAL");
+  }
+
+  if ((A == 1) and (B == 1) and (C == 1) and (D == 1) and (E == 1))
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("BASIC  I/O    KERNAL ");
+  }
+
+  if ((A == 1) and (C == 1) and (D == 1) and (E == 0))
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("RAM    I/O    KERNAL");
+  }
+
+  if ((A == 1) and (C == 1) and (D == 0) and (E == 1))
+  {
+    lcd.setCursor(0,3); 
+    lcd.print("RAM    I/O    RAM   ");
+  }
+}
+ 
